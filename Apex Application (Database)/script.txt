@@ -1,0 +1,168 @@
+Drop table User1 cascade constraints;
+Drop table Cart cascade constraints; 
+Drop table Shop cascade constraints;
+Drop table Discount cascade constraints;
+Drop table Product cascade constraints;
+Drop table Payment cascade constraints;
+Drop table Order1 cascade constraints;
+Drop table Review cascade constraints;
+
+
+
+CREATE TABLE  User1 (
+    User_ID            INTEGER NOT NULL,
+    Name            VARCHAR(50),
+    Email           VARCHAR(50),
+    Contact_no      INTEGER,
+    Address         VARCHAR(50),
+    Gender          VARCHAR(50),
+    Image            VARCHAR(4000),
+    Role            VARCHAR(50),
+    Password        VARCHAR(50), 
+    vkey            VARCHAR (60),
+        About           VARCHAR(200),
+    CONSTRAINT        User1 PRIMARY KEY (User_ID)
+);
+
+
+
+CREATE TABLE Shop (
+    Shop_ID                        INTEGER NOT NULL,
+    Shop_Name        VARCHAR(50),
+        Shop_Type                   VARCHAR(50),
+    User_ID    INTEGER NOT NULL REFERENCES User1 (User_ID)  ,
+    CONSTRAINT      Shop PRIMARY KEY (SHOP_NAME)
+            
+);
+
+
+
+CREATE TABLE Discount (
+    Discount_ID    INTEGER NOT NULL ,
+    Disocunt_Rate    INTEGER,
+    Start_Date    DATE,
+    End_Date      DATE,
+    User_ID    INTEGER NOT NULL REFERENCES User1 (User_ID),
+    CONSTRAINT    Discount PRIMARY KEY (Discount_ID)
+);
+
+
+
+CREATE TABLE Product (
+    Product_ID     INTEGER NOT NULL ,
+    Product_Name     VARCHAR(50),
+    
+    Shop_Name    VARCHAR(50) NOT NULL REFERENCES Shop (SHOP_NAME),
+    Price        INTEGER ,
+    Discount_ID    INTEGER,
+    Stock    INTEGER ,
+    Information    VARCHAR(100),
+    Review    VARCHAR(100),
+    Category             VARCHAR(200),
+    Allergy_Info     VARCHAR(50),    
+    Image         VARCHAR(200), 
+    Entered_by VARCHAR2(100),
+    CONSTRAINT Product PRIMARY KEY (Product_ID)
+);
+
+CREATE TABLE  Review
+   ( REVIEW_ID NUMBER NOT NULL, 
+     REVIEW VARCHAR2(255),  
+     User_ID    INTEGER NOT NULL REFERENCES User1(User_ID), 
+     Product_ID        INTEGER NOT NULL REFERENCES Product (Product_ID), 
+    CONSTRAINT REVIEW PRIMARY KEY (REVIEW_ID)
+   ) ;
+
+
+CREATE TABLE  Cart (
+    Cart_ID                    INTEGER NOT NULL,
+    User_ID                 INTEGER NOT NULL REFERENCES User1 (User_ID),
+    Product_ID              INTEGER NOT NULL REFERENCES Product (Product_ID),              
+    Qty INTEGER NOT NULL,
+    CONSTRAINT           Cart PRIMARY KEY (Cart_ID)
+);
+
+
+CREATE TABLE Payment (
+    Payment_ID          INTEGER NOT NULL,
+    User_ID           INTEGER NOT NULL REFERENCES User1(User_ID),
+    Payment_Time          DATE,
+    CONSTRAINT Payment PRIMARY KEY (Payment_ID)
+);
+
+
+
+CREATE TABLE Order1 (
+    Order_ID     INTEGER NOT NULL,
+    Total_Orders    INTEGER NOT NULL,
+    Product_ID    INTEGER NOT NULL REFERENCES Product (Product_ID),
+    Payment_Status   VARCHAR2(10),
+    Order_Time    DATE,
+    Collection_Slot   VARCHAR2(100), 
+    Collection_Day  VARCHAR2(100),
+    Deliver_Status VARCHAR2(10),
+    CONSTRAINT    Order1 PRIMARY KEY (Order_ID)
+);
+
+
+
+INSERT INTO   User1 (User_ID, Name, Email, Contact_No, Address, Gender, Image, Role,Password) VALUES (1, 'Lakash', 'lakashmaharjan@gmail.com', 4785595, 'Cleckhuddersfax', 'Female ','./images/person_6.jpg', 'Customer','password');
+INSERT INTO   User1 (User_ID, Name, Email, Contact_No, Address, Gender, Image, Role,Password) VALUES (2, 'Emma','emma@gmail.com', 4788895, 'Cleckhuddersfax', 'Female ','./images/person_6.jpg', 'Customer','password');
+INSERT INTO   User1 (User_ID, Name, Email, Contact_No, Address, Gender, Image, Role,Password) VALUES (3, 'Johnny','johnny@gmail.com', 4785595, 'Cleckhuddersfax', 'Male ','./images/person_6.jpg', 'Customer','password');
+INSERT INTO   User1 (User_ID, Name, Email, Contact_No, Address, Gender, Image, Role,Password) VALUES (4, 'Derrick','derrick@gmail.com', 49876978, 'Cleckhuddersfax', 'Male ','./images/person_6.jpg', 'Customer','password');
+INSERT INTO   User1 (User_ID, Name, Email, Contact_No, Address, Gender, Image, Role,Password) VALUES (5, 'jane','jane@gmail.com', 465463433, 'Cleckhuddersfax', 'Female ','./images/person_6.jpg', 'Customer','password');
+INSERT INTO   User1 (User_ID, Name, Email, Contact_No, Address, Gender, Image, Role,Password) VALUES (6, 'Ram','adhikariram641@gmail.com', 45674534, 'Cleckhuddersfax', 'Male ','./images/person_6.jpg', 'Trader','password');
+INSERT INTO   User1 (User_ID, Name, Email, Contact_No, Address, Gender, Image, Role,Password) VALUES (7, 'Shyam','shresthashyam146@gmail.com', 4785595, 'Cleckhuddersfax', 'Male ','./images/person_6.jpg', 'Trader','password');
+INSERT INTO   User1 (User_ID, Name, Email, Contact_No, Address, Gender, Image, Role,Password) VALUES (8, 'Hari','shahhari416@gmail.com ', 45674534, 'Cleckhuddersfax', 'Male ','./images/person_6.jpg', 'Trader','password');
+INSERT INTO   User1 (User_ID, Name, Email, Contact_No, Address, Gender, Image, Role,Password) VALUES (9, 'Krishna','kckrishna504@gmail.com', 45674534, 'Cleckhuddersfax', 'Male ','./images/person_6.jpg', 'Trader','password');
+INSERT INTO   User1 (User_ID, Name, Email, Contact_No, Address, Gender, Image, Role,Password) VALUES (10, 'Sita','sitam752@gmail.com', 45674534, 'Cleckhuddersfax', 'Female ','./images/person_6.jpg', 'Trader','password');
+INSERT INTO   User1 (User_ID, Name, Email, Contact_No, Address, Gender, Image, Role,Password) VALUES (11, 'Prashant','prasbas97@gmail.com', 4785595, 'Cleckhuddersfax', 'Male ','./images/person_6.jpg', 'Admin','password');
+
+
+
+INSERT INTO Shop (Shop_ID, Shop_Name , Shop_Type, User_ID) VALUES (1, 'Fresh Mart','Vegetables and Fruits', 6); 
+INSERT INTO Shop (Shop_ID, Shop_Name , Shop_Type, User_ID) VALUES (2, 'Fresh Meat', 'Meat Products', 7); 
+INSERT INTO Shop (Shop_ID, Shop_Name , Shop_Type, User_ID) VALUES (3, 'Fresh Bakery', 'Bakery items', 8); 
+INSERT INTO Shop (Shop_ID, Shop_Name , Shop_Type, User_ID) VALUES (4, 'Fish Shop', 'Fish and Seafood', 9); 
+INSERT INTO Shop (Shop_ID, Shop_Name , Shop_Type, User_ID) VALUES (5, 'Fresh Deli', 'Delicatessen', 10); 
+
+
+
+INSERT INTO Product (Product_ID, Product_Name, Shop_Name, Price, Discount_ID, Stock, Information, Review, Category, Allergy_Info, Image, Entered_by) VALUES (1, 'Green Onion', 'Fresh Mart', 5, 2, 20 , 'Very Fresh and good for health', 'I recommend', 'Vegetable' ,'Some Groups allergic to Raw Onion','uploads/veg3.jpg','Ram' ); 
+INSERT INTO Product (Product_ID, Product_Name, Shop_Name, Price, Discount_ID, Stock, Information, Review, Category, Allergy_Info, Image, Entered_by) VALUES (2, 'Potato', 'Fresh Mart', 6, 2 ,20, 'Very Fresh caloric diet',  'It is good', 'Vegetable' ,'Rhinitis to some group','uploads/veg3.jpg','Ram' ); 
+INSERT INTO Product (Product_ID, Product_Name, Shop_Name,  Price, Discount_ID, Stock, Information, Review, Category, Allergy_Info, Image, Entered_by) VALUES (3, 'Pork Belly', 'Fresh Meat', 10, 3 ,20, 'High Qualty and high in fat. ',  'Fresh and hygienic', 'Meat','People Allergic to Cat is likey to develop allergy','uploads/porkbelly.jpg','Shyam' ); 
+INSERT INTO Product (Product_ID, Product_Name, Shop_Name,  Price, Discount_ID, Stock, Information, Review, Category, Allergy_Info, Image, Entered_by) VALUES (4, 'Kiwi', 'Fresh Mart', 10, 4 ,20 , 'This fruit is very tasty. It has many benefits.', 'Very Tasty', 'Fruits', 'Mild prickly symptoms to some','uploads/fruit2.jpg','Ram' ); 
+INSERT INTO Product (Product_ID, Product_Name, Shop_Name,  Price, Discount_ID, Stock, Information, Review, Category, Allergy_Info, Image, Entered_by) VALUES (5, 'Apple','Fresh Mart', 5, 1 ,20, 'Rich in vitamin and minerals. Very good.', 'Apple a day keeps the doctor away', 'Fruits', 'Sensitive groups develop symptoms','uploads/fruit3.jpg','Ram' ); 
+INSERT INTO Product (Product_ID, Product_Name, Shop_Name,  Price, Discount_ID, Stock, Information, Review, Category, Allergy_Info, Image, Entered_by) VALUES (6, 'Chicken Breast','Fresh Meat', 15, 2 ,20 , 'You can make variety with it. ', 'Protein Diet', 'Meat', 'Good for meat lovers','uploads/chickenbreast.jpg','Shyam' ); 
+INSERT INTO Product (Product_ID, Product_Name, Shop_Name,  Price, Discount_ID, Stock, Information, Review, Category, Allergy_Info, Image, Entered_by) VALUES (7, 'Cake','Fresh Bakery', 22, 2 ,20 , 'Always needed for special occasions.', 'Sweet', 'Bakery', 'Good for bakery lovers','uploads/cake1.jpg','Hari' ); 
+INSERT INTO Product (Product_ID, Product_Name, Shop_Name,  Price, Discount_ID, Stock, Information, Review, Category, Allergy_Info, Image, Entered_by) VALUES (9, 'Pastery','Fresh Bakery', 16, 4 ,20 , 'This diet is perfect for lunch and tiffins.', 'Protein Diet', 'Bakery', 'Good for bakery lovers','uploads/pastry.jpg','Hari' ); 
+INSERT INTO Product (Product_ID, Product_Name, Shop_Name,  Price, Discount_ID, Stock, Information, Review, Category, Allergy_Info, Image, Entered_by) VALUES (10, 'Tuna','Fish Shop', 24, 1 ,20 , 'A highly nutritious diet. Very little of fat. ', 'Protein Supplement', 'Fish and Seafood', 'Good source of protein','uploads/tuna.jpg','Krishna' ); 
+INSERT INTO Product (Product_ID, Product_Name, Shop_Name,  Price, Discount_ID, Stock, Information, Review, Category, Allergy_Info, Image, Entered_by) VALUES (11, 'Rohu','Fish Shop', 27, 3 ,20 , 'A highly nutritious diet. Very little of fat. ', 'Protein Supplement', 'Fish and Seafood', 'Good source of protein','uploads/rohu.jpg','Krishna' );
+INSERT INTO Product (Product_ID, Product_Name, Shop_Name,  Price, Discount_ID, Stock, Information, Review, Category, Allergy_Info, Image, Entered_by) VALUES (12, 'Coffee','Fresh Deli', 8, 2 ,20, 'For every mornning breakfast. It is needed always.', 'Breakfast', 'Delicateseen', 'Essential','uploads/coffee.jpg','Sita' );
+INSERT INTO Product (Product_ID, Product_Name, Shop_Name,  Price, Discount_ID, Stock, Information, Review, Category, Allergy_Info, Image, Entered_by) VALUES (13, 'Fine Green Tea','Fresh Deli', 23, 5 ,20 , 'Essentials', 'Always good for health. Sweet leaves mesmerizes and waves off stress.', 'Delicateseen', 'Delicateseen','uploads/green.jpg','Sita' );
+
+
+
+
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day, DELIVER_STATUS) VALUES (1,   10, 1, 'Y','05/20/2020','Wednesday-2020-05-26','10-13', 'Y');
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day, DELIVER_STATUS) VALUES (2,   9, 2, 'Y','05/31/2020','Wednesday-2020-06-03','13-16', 'Y');
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day, DELIVER_STATUS) VALUES (3,  8, 3, 'Y','06/02/2020','Thursday-2020-06-04','16-19', 'Y');
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day, DELIVER_STATUS) VALUES (4,  7, 4, 'N','06/04/2020','Thursday-2020-06-11','10-13', 'Y');
+INSERT INTO Order1(Order_ID,   Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day,DELIVER_STATUS) VALUES (5,   6, 5, 'Y','05/31/2020','Wednesday-2020-06-03','13-16', 'Y');
+
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day,  DELIVER_STATUS) VALUES (6,   6, 1, 'Y','06/12/2020','Wednesday-2020-06-17','13-16', 'Y');
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day,  DELIVER_STATUS) VALUES (7,   1, 2, 'N','06/12/2020','Wednesday-2020-06-17','16-19',  'N');
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot,  Collection_Day, DELIVER_STATUS) VALUES (8,  1, 3, 'Y','06/10/2020',' Wednesday-2020-06-17','10-13', 'Y');
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day,  DELIVER_STATUS) VALUES (9,  1, 4, 'N','06/05/2020','Wednesday-2020-06-10','13-16', 'Y');
+INSERT INTO Order1(Order_ID,   Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day, DELIVER_STATUS) VALUES (10,   1, 5, 'Y','06/04/2020','Thursday-2020-06-11','16-19', 'Y');
+
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day,  DELIVER_STATUS) VALUES (11,   6, 6, 'Y','06/05/2020','Thursday-2020-06-11','10-13', 'Y');
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day,  DELIVER_STATUS) VALUES (12,   7, 7, 'Y','06/05/2020','Thursday-2020-06-11','13-16',  'Y');
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day,  DELIVER_STATUS) VALUES (14,  5, 9, 'Y','06/04/2020','Thursday-2020-06-11','16-19', 'Y');
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day,  DELIVER_STATUS) VALUES (15,   6, 10, 'Y','06/05/2020','Thursday-2020-06-11','16-19', 'Y');
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day,  DELIVER_STATUS) VALUES (16,   7, 11, 'Y','06/05/2020','Thursday-2020-06-11','13-16',  'N');
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day,  DELIVER_STATUS) VALUES (17,  5, 12, 'Y','06/04/2020','Thursday-2020-06-11','10-13', 'Y');
+
+INSERT INTO Order1(Order_ID,  Total_Orders, Product_ID, Payment_STATUS, Order_Time, Collection_Slot, Collection_Day, DELIVER_STATUS) VALUES (18,   3, 2, 'Y','06/13/2020','Wednesday-2020-06-17','13-16', 'Y');
+
+
